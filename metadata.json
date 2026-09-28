@@ -1,0 +1,6 @@
+{
+  "name": "CUTELLY",
+  "description": "Cute animated floating sticker companion with smart gestures, automation, and kawaii personalization.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}

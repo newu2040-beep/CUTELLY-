@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layer-list xmlns:android="http://schemas.android.com/apk/res/android">
+    <!-- Circular foreground graphic -->
+    <item
+        android:width="68dp"
+        android:height="68dp"
+        android:drawable="@drawable/cutelly_launcher_icon_1790600579782"
+        android:gravity="center" />
+</layer-list>

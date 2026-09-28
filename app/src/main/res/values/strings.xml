@@ -1,0 +1,19 @@
+<resources>
+    <string name="app_name">CUTELLY</string>
+    <string name="tagline">Small stickers. Big possibilities.</string>
+    <string name="welcome_description">Customize your phone, add cute stickers, and make every gesture yours.</string>
+    <string name="get_started">Get Started</string>
+    <string name="author_credit">Made with love by Rahul Shah ❤️</string>
+    
+    <!-- Accessibility -->
+    <string name="accessibility_service_label">CUTELLY Gesture &amp; Action Assistant</string>
+    <string name="accessibility_service_description">Enables CUTELLY to perform user-requested actions such as taking screenshots, returning Home, opening Recents, and navigating without inspecting personal screen data or keystrokes.</string>
+    
+    <!-- Notification -->
+    <string name="overlay_notification_channel">CUTELLY Floating Overlay</string>
+    <string name="overlay_notification_title">CUTELLY is active</string>
+    <string name="overlay_notification_desc">Tap to manage your floating stickers and gestures</string>
+    <string name="action_hide_stickers">Hide Stickers</string>
+    <string name="action_show_stickers">Show Stickers</string>
+    <string name="action_stop_service">Stop CUTELLY</string>
+</resources>
