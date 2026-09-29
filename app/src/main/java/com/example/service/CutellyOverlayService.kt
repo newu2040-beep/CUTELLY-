@@ -179,10 +179,25 @@ class CutellyOverlayService : Service() {
 
     private var shakeDetector: ShakeDetector? = null
 
-    private var currentConfig: FloatingStickerConfig? = null
-    private var currentSticker: StickerItem? = null
-    private var gestureMappings: List<GestureMapping> = emptyList()
-    private var customAnimations: List<CustomAnimationItem> = emptyList()
+    private val currentConfigState = mutableStateOf<FloatingStickerConfig?>(null)
+    private var currentConfig: FloatingStickerConfig?
+        get() = currentConfigState.value
+        set(value) { currentConfigState.value = value }
+
+    private val currentStickerState = mutableStateOf<StickerItem?>(null)
+    private var currentSticker: StickerItem?
+        get() = currentStickerState.value
+        set(value) { currentStickerState.value = value }
+
+    private val gestureMappingsState = mutableStateOf<List<GestureMapping>>(emptyList())
+    private var gestureMappings: List<GestureMapping>
+        get() = gestureMappingsState.value
+        set(value) { gestureMappingsState.value = value }
+
+    private val customAnimationsState = mutableStateOf<List<CustomAnimationItem>>(emptyList())
+    private var customAnimations: List<CustomAnimationItem>
+        get() = customAnimationsState.value
+        set(value) { customAnimationsState.value = value }
 
     private var isTemporaryHidden = false
     private var showFloatingMenu = mutableStateOf(false)

@@ -7,6 +7,7 @@ import android.os.Build
 import android.provider.Settings
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
+import android.widget.Toast
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
@@ -555,6 +556,12 @@ fun HomeScreen(
                                     .width(96.dp)
                                     .clickable {
                                         viewModel.selectActiveSticker(sticker)
+                                        if (!isOverlayActive && viewModel.canDrawOverlays()) {
+                                            viewModel.toggleOverlayService {}
+                                        }
+                                        Toast.makeText(context, "✨ ${sticker.name} set as active floating sticker!", Toast.LENGTH_SHORT).show()
+                                        KawaiiHaptics.performClick(context)
+                                        KawaiiSoundManager.playSound("pop")
                                     },
                                 shape = RoundedCornerShape(20.dp),
                                 colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.surface),

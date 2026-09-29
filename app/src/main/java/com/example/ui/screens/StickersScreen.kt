@@ -1,5 +1,6 @@
 package com.example.ui.screens
 
+import android.widget.Toast
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
@@ -26,10 +27,12 @@ import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
+import androidx.compose.material.icons.filled.Check
 import androidx.compose.material.icons.filled.Close
 import androidx.compose.material.icons.filled.Favorite
 import androidx.compose.material.icons.filled.FavoriteBorder
 import androidx.compose.material.icons.filled.Search
+import androidx.compose.material.icons.filled.Tune
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Card
@@ -88,6 +91,7 @@ fun StickersScreen(
     val context = LocalContext.current
     val allStickers by viewModel.allStickers.collectAsState()
     val activeConfig by viewModel.activeFloatingConfig.collectAsState()
+    val isOverlayActive by viewModel.isOverlayActive.collectAsState()
     val selectedCategory by viewModel.selectedCategory.collectAsState()
     val searchQuery by viewModel.searchQuery.collectAsState()
     val customAnimations by viewModel.customAnimations.collectAsState()
@@ -210,7 +214,11 @@ fun StickersScreen(
                             modifier = Modifier
                                 .aspectRatio(1f)
                                 .clickable {
-                                    detailSticker = sticker
+                                    viewModel.selectActiveSticker(sticker)
+                                    if (!isOverlayActive && viewModel.canDrawOverlays()) {
+                                        viewModel.toggleOverlayService {}
+                                    }
+                                    Toast.makeText(context, "✨ ${sticker.name} is now floating on screen!", Toast.LENGTH_SHORT).show()
                                     KawaiiHaptics.performClick(context)
                                     KawaiiSoundManager.playSound("pop")
                                 },
@@ -218,7 +226,7 @@ fun StickersScreen(
                             colors = CardDefaults.cardColors(
                                 containerColor = if (isCurrentActive) CutellySoftPink else Color.White
                             ),
-                            elevation = CardDefaults.cardElevation(defaultElevation = 1.dp),
+                            elevation = CardDefaults.cardElevation(defaultElevation = if (isCurrentActive) 3.dp else 1.dp),
                             border = if (isCurrentActive) CardDefaults.outlinedCardBorder().copy(brush = androidx.compose.ui.graphics.SolidColor(CutellyBlush)) else null
                         ) {
                             Box(
@@ -231,6 +239,25 @@ fun StickersScreen(
                                     isAnimated = isCurrentActive
                                 )
 
+                                if (isCurrentActive) {
+                                    Box(
+                                        modifier = Modifier
+                                            .align(Alignment.TopStart)
+                                            .padding(4.dp)
+                                            .size(18.dp)
+                                            .clip(CircleShape)
+                                            .background(CutellyBlush),
+                                        contentAlignment = Alignment.Center
+                                    ) {
+                                        Icon(
+                                            imageVector = Icons.Default.Check,
+                                            contentDescription = "Active",
+                                            tint = Color.White,
+                                            modifier = Modifier.size(11.dp)
+                                        )
+                                    }
+                                }
+
                                 if (sticker.isFavorite) {
                                     Icon(
                                         imageVector = Icons.Default.Favorite,
@@ -240,6 +267,28 @@ fun StickersScreen(
                                             .size(12.dp)
                                             .align(Alignment.TopEnd)
                                             .padding(top = 4.dp, end = 4.dp)
+                                    )
+                                }
+
+                                // Tune / Motion Customizer Button
+                                Box(
+                                    modifier = Modifier
+                                        .align(Alignment.BottomEnd)
+                                        .padding(4.dp)
+                                        .size(22.dp)
+                                        .clip(CircleShape)
+                                        .background(MaterialTheme.colorScheme.surfaceVariant.copy(alpha = 0.8f))
+                                        .clickable {
+                                            detailSticker = sticker
+                                            KawaiiSoundManager.playSound("bubble")
+                                        },
+                                    contentAlignment = Alignment.Center
+                                ) {
+                                    Icon(
+                                        imageVector = Icons.Default.Tune,
+                                        contentDescription = "Customize Motion",
+                                        tint = MaterialTheme.colorScheme.onSurfaceVariant,
+                                        modifier = Modifier.size(12.dp)
                                     )
                                 }
                             }
